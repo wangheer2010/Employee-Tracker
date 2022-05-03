@@ -1,4 +1,4 @@
-USE employee_trackerDB;
+USE employee_db;
 
 INSERT INTO department (name)
 VALUES 
@@ -25,4 +25,4 @@ VALUES
 ("Kunal", "Singh", 4), 
 ("Malia", "Brown", 5), 
 ("Sarah", "Lourd", 6), 
-("Tom", "Allen", 7), 
+("Tom", "Allen", 7);
