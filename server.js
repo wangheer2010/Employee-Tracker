@@ -1,11 +1,18 @@
 
 // Import and require mysql2
 const inquirer = require("inquirer");
+const db = require("./config/connection");
 const connection = require('./config/connection');
 
-const firstPrompt = async() => {
+db.connect(err => {
+  if (err) throw err;
+  console.log('Database connected.');
+  firstPrompt();
+});
+
+const firstPrompt = function() {
   console.log('Welcome to the Employee Tracker!')
-  await inquirer.prompt([
+  inquirer.prompt([
     {
         type: 'list',
         name:'userChoice',
@@ -32,54 +39,80 @@ const firstPrompt = async() => {
       console.log(res.userChoice);
       switch(res.userChoice){
         case 'View All Employees':
-          viewAllEmployees(firstPrompt);
+          viewAllEmployees();
           break;
         case 'View All Roles':
-          viewAllRoles(firstPrompt);
+          viewAllRoles();
           break;
         case 'View All Departments':
-          viewAllDepartments(firstPrompt);
+          viewAllDepartments();
           break;
         case 'Add Department':
-          addDepartment(firstPrompt);
+          addDepartment();
           break;
         case 'Add Role':
-          addRole(firstPrompt);
+          addRole();
           break;
         case 'Add Employee':
-          addEmployee(firstPrompt);
+          addEmployee();
           break;
-        case 'Update Employee Role':
-          updateEmployeeRole(firstPrompt);
-          break;
-        case 'Update Employee Manager':
-          updateEmployeeManager(firstPrompt);
-          break;
-        case 'View Employees By Manager':
-          viewEmployeesByManager(firstPrompt);
-          break;
-        case 'View Employees By Department':
-          viewEmployeesByDepartment(firstPrompt);
-          break;
-        case 'Delete Employee':
-          deleteEmployee(firstPrompt);
-          break;
-        case 'Delete Department':
-          deleteDepartment(firstPrompt);
-          break;
-        case 'Delete Role':
-          deleteRole(firstPrompt);
-          break;
-        case 'View the total utilized budget of a department':
-          viewUtilizedBudgetByDepartment(firstPrompt);
-          break;
-        case 'Exit':
-          connection.end();
-          break;
+        // case 'Update Employee Role':
+        //   updateEmployeeRole();
+        //   break;
+        // case 'Update Employee Manager':
+        //   updateEmployeeManager();
+        //   break;
+        // case 'View Employees By Manager':
+        //   viewEmployeesByManager();
+        //   break;
+        // case 'View Employees By Department':
+        //   viewEmployeesByDepartment();
+        //   break;
+        // case 'Delete Employee':
+        //   deleteEmployee();
+        //   break;
+        // case 'Delete Department':
+        //   deleteDepartment();
+        //   break;
+        // case 'Delete Role':
+        //   deleteRole();
+        //   break;
+        // case 'View the total utilized budget of a department':
+        //   viewUtilizedBudgetByDepartment();
+        //   break;
+        // case 'Exit':
+        //   connection.end();
+        //   break;
         }
       })
 };
 
+// For the view all options, here are the queries
+const viewAllEmployeesQuery = 'SELECT * FROM employee';
+const viewAllRolesQuery = 'SELECT * FROM role';
+const viewAllDepartmentsQuery = 'SELECT * FROM department';
 
+const viewAllEmployees = () => {
+  db.query(viewAllEmployeesQuery, (err,res)=> {
+    if (err) throw err;
+    console.table(res);
+    firstPrompt();
+  });
+}
 
+const viewAllDepartments = () => {
+  db.query(viewAllDepartmentsQuery, (err,res)=> {
+    if (err) throw err;
+    console.table(res);
+    firstPrompt();
+  });
+}
+
+const viewAllRoles = () => {
+  db.query(viewAllRolesQuery, (err,res)=> {
+    if (err) throw err;
+    console.table(res);
+    firstPrompt();
+  });
+}
 

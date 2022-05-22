@@ -24,9 +24,13 @@
   As the developer of this app, all user information will not be collected. Viewing the walkthrough video is highly recommended before you try to install this package. It shows you all you need to set this up!
   In order to use this app. You need to take the following steps:
   - Clone the repo
-  - Open terminal and run `npm install`
-  - Run `node server.js`
-  - Follow the prompts shown on your screen
+  - Open a terminal & run `npm install` to install node modules
+  - Run `mysql -u root -p` 
+  - Enter your MySQL password
+  - run `source db/schema.sql;` to create the schema from MySQL shell
+  - run `source db/seed.sql` to seed the database
+  - run `exit` to quit the DBMS
+  - run `node server.js` to start server
   
   ## Contributing
   I welcome all developers that are interested in this project to add more fancy features to the app! Feel free to contact me and welcome to follow me.
