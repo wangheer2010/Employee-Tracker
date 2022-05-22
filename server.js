@@ -68,15 +68,15 @@ const firstPrompt = function() {
         case 'View Employees By Department':
           viewEmployeesByDepartment();
           break;
-        // case 'Delete Employee':
-        //   deleteEmployee();
-        //   break;
-        // case 'Delete Department':
-        //   deleteDepartment();
-        //   break;
-        // case 'Delete Role':
-        //   deleteRole();
-        //   break;
+        case 'Delete Employee':
+          deleteEmployee();
+          break;
+        case 'Delete Department':
+          deleteDepartment();
+          break;
+        case 'Delete Role':
+          deleteRole();
+          break;
         // case 'View the total utilized budget of a department':
         //   viewUtilizedBudgetByDepartment();
         //   break;
@@ -299,5 +299,60 @@ function viewEmployeesByDepartment() {
           console.log(`Manager's employee shown successfully!`);
       })
       firstPrompt();
+  })
+}
+
+// Delete queries
+const deleteEmployee = () => {
+      inquirer.prompt([
+          {
+              name: 'employee_id',
+              type: 'input',
+              message: 'Enter the Employee ID of the person you want to delete:'
+          }
+      ]).then(function(employee_id) {
+          let query = `DELETE FROM employee where id = ?`
+          let params = [employee_id]
+          db.query(query, params, (err, res) => {
+            if (err) throw err;
+            console.log(`Employee deleted successfully!`);
+        })
+        firstPrompt();
+      })
+}
+
+const deleteDepartment = () => {
+  inquirer.prompt([
+      {
+          name: 'department_id',
+          type: 'input',
+          message: 'Enter the ID of the department you want to delete:'
+      }
+  ]).then(function(department_id) {
+      let query = `DELETE FROM department where id = ?`
+      let params = [department_id]
+      db.query(query, params, (err, res) => {
+        if (err) throw err;
+        console.log(`Department deleted successfully!`);
+    })
+    firstPrompt();
+  })
+}
+
+const deleteRole = () => {
+  inquirer.prompt([
+      {
+          name: 'role_id',
+          type: 'input',
+          message: 'Enter the ID of the role you want to delete:'
+      }
+  ]).then(function(role_id) {
+      let query = `DELETE FROM role where id = ?`
+      let params = [role_id]
+      db.query(query, params, (err, res) => {
+        if (err) throw err;
+        console.log(`Role deleted successfully!`);
+    })
+    firstPrompt();
   })
 }
