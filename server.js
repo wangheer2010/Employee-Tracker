@@ -56,12 +56,12 @@ const firstPrompt = function() {
         case 'Add Employee':
           addEmployee();
           break;
-        // case 'Update Employee Role':
-        //   updateEmployeeRole();
-        //   break;
-        // case 'Update Employee Manager':
-        //   updateEmployeeManager();
-        //   break;
+        case 'Update Employee Role':
+          updateEmployeeRole();
+          break;
+        case 'Update Employee Manager':
+          updateEmployeeManager();
+          break;
         // case 'View Employees By Manager':
         //   viewEmployeesByManager();
         //   break;
@@ -116,3 +116,127 @@ const viewAllRoles = () => {
   });
 }
 
+// For the 3 adding queries
+function addDepartment() { 
+  inquirer.prompt([
+      {
+          name: "name",
+          type: "input",
+          message: "What department would you like to add?"
+      }
+  
+  ]).then(function(answers) {
+      db.query('INSERT INTO department SET ?',
+          {
+              name: answers.name
+          },
+          function(err, res) {
+              if (err) throw err;
+              console.log(`New department added successfully!`);
+              firstPrompt();
+          }
+      )
+  })
+}
+
+function addRole() { 
+  inquirer.prompt([
+      {
+          name: "title",
+          type: "input",
+          message: "What role would you like to add?",
+      },
+      {
+          name: "salary",
+          type: "input",
+          message: "What is the salary for the new role?",
+      },
+      {
+          name: "department_id",
+          type: "input",
+          message: "Please enter id of the department for this role",
+      }
+  
+  ]).then(function(answers) {
+      db.query('INSERT INTO role SET ?',
+          {
+              title: answers.title,
+              salary: answers.salary,
+              department_id: answers.department_id
+          },
+          function(err, res) {
+              if (err) throw err;
+              console.log(`New role added successfully!`);
+              firstPrompt();
+          }
+      )
+  })
+}
+
+function addEmployee() { 
+  inquirer.prompt([
+      {
+          name: "first_name",
+          type: "input",
+          message: "What's the employee's first name?",
+      },
+      {
+          name: "last_name",
+          type: "input",
+          message: "What's the employee's last name?",
+      },
+      {
+          name: "role_id",
+          type: "input",
+          message: "What's the employee's role id?",
+      },
+      {
+          name: "manager_id",
+          type: "input",
+          message: "What's the employee manager's id?",
+      }
+  
+  ]).then(function(answers) {
+      db.query('INSERT INTO employee SET ?',
+          {
+              first_name: answers.first_name,
+              last_name: answers.last_name,
+              role_id: answers.role_id,
+              manager_id: answers.manager_id
+          },
+          function(err, res) {
+              if (err) throw err;
+              console.log(`New employee added successfully!`);
+              firstPrompt();
+          }
+      )
+  })
+  }
+  
+  //if update employee role is selected
+  function updateEmployeeRole() { 
+    inquirer.prompt([
+      {
+          name: "id",
+          type: "input",
+          message: "What is the employee's id?",
+      },
+      {
+          name: "role_id",
+          type: "input",
+          message: "What is the employee's role id?",
+      }
+  
+  ]).then(function(role_id, id) {
+      let query = 'UPDATE employee SET role_id = ? WHERE id = ?'
+      let params = [role_id, id]
+  
+      db.query(query, params, (err, res) => {
+          if (err) throw err;
+          console.log(`Employee's role updated successfully!`);
+      })
+      firstPrompt();
+  })
+}
+
+updateEmployeeManager()
