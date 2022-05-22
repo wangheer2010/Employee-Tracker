@@ -306,12 +306,12 @@ function viewEmployeesByDepartment() {
 const deleteEmployee = () => {
       inquirer.prompt([
           {
-              name: 'employee_id',
+              name: 'id',
               type: 'input',
               message: 'Enter the Employee ID of the person you want to delete:'
           }
       ]).then(function(employee_id) {
-          let query = `DELETE FROM employee where id = ?`
+          let query = `DELETE FROM employee where ?`
           let params = [employee_id]
           db.query(query, params, (err, res) => {
             if (err) throw err;
@@ -324,12 +324,12 @@ const deleteEmployee = () => {
 const deleteDepartment = () => {
   inquirer.prompt([
       {
-          name: 'department_id',
+          name: 'id',
           type: 'input',
           message: 'Enter the ID of the department you want to delete:'
       }
   ]).then(function(department_id) {
-      let query = `DELETE FROM department where id = ?`
+      let query = `DELETE FROM department where ?`
       let params = [department_id]
       db.query(query, params, (err, res) => {
         if (err) throw err;
@@ -342,12 +342,12 @@ const deleteDepartment = () => {
 const deleteRole = () => {
   inquirer.prompt([
       {
-          name: 'role_id',
+          name: 'id',
           type: 'input',
           message: 'Enter the ID of the role you want to delete:'
       }
   ]).then(function(role_id) {
-      let query = `DELETE FROM role where id = ?`
+      let query = `DELETE FROM role where ?`
       let params = [role_id]
       db.query(query, params, (err, res) => {
         if (err) throw err;
@@ -361,15 +361,16 @@ function viewUtilizedBudgetByDepartment() {
 
   inquirer.prompt([
     {
-        name: 'department_id',
+        name: 'name',
         type: 'input',
         message: 'Enter the name of the department you want to check the utilized budget:'
     }
 ]).then(function(department_name) {
-    let query = `SELECT department.name, sum(employee.salary) AS utilized_budget FROM employee JOIN role ON role.id = employee.role_id JOIN department on department.id = role.department_id and department.name = ? GROUP BY department.name`
+    let query = `SELECT department.name AS department_name, sum(role.salary) AS utilized_budget FROM employee LEFT JOIN role ON role.id = employee.role_id JOIN department on department.id = role.department_id and department.? GROUP BY department.name`
     let params = [department_name]
     db.query(query, params, (err, res) => {
       if (err) throw err;
+      console.table(res);
       console.log(`Utilized budget shown successfully!`);
   })
   firstPrompt();
