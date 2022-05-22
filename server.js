@@ -272,11 +272,12 @@ function viewEmployeesByManager() {
         message: "What is the manager id?",
     }
   ]).then(function(manager_id) {
-      let query = 'SELECT employee.name FROM employee WHERE manager_id = ?'
+      let query = 'SELECT employee.first_name, employee.last_name FROM employee WHERE ?'
       let params = [manager_id]
   
       db.query(query, params, (err, res) => {
           if (err) throw err;
+          console.table(res);
           console.log(`Manager's employees shown successfully!`);
       })
       firstPrompt();
@@ -286,12 +287,12 @@ function viewEmployeesByManager() {
 function viewEmployeesByDepartment() {
   inquirer.prompt([
     {
-        name: "department_name",
+        name: "name",
         type: "input",
         message: "What is the department name?",
     }
   ]).then(function(department_name) {
-      let query = 'SELECT employee.name FROM employee JOIN role ON role.id = employee.role_id JOIN department on department.id = role.department_id AND department_name = ?'
+      let query = 'SELECT employee.name FROM employee JOIN role ON role.id = employee.role_id JOIN department on department.id = role.department_id AND department.?'
       let params = [department_name]
   
       db.query(query, params, (err, res) => {

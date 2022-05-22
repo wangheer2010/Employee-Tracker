@@ -27,18 +27,19 @@
   - Open a terminal & run `npm install` to install node modules
   - Run `mysql -u root -p` 
   - Enter your MySQL password
-  - run `source db/schema.sql;` to create the schema from MySQL shell
-  - run `source db/seed.sql` to seed the database
-  - run `exit` to quit the DBMS
-  - run `node server.js` to start server
+  - Run `source db/schema.sql;` to create the schema from MySQL shell
+  - Run `source db/seed.sql` to seed the database
+  - Run `exit` to quit the DBMS
+  - Run `node server.js` to start server
+  - Follow the prompts shown in the terminal
   
   ## Contributing
   I welcome all developers that are interested in this project to add more fancy features to the app! Feel free to contact me and welcome to follow me.
 
   ## Tests
-  Our tests are performed using the Insomnia application
+  Our tests are performed in terminal and details of the steps to take are shown in the video below
   ## Questions
   - [My git Repo](https://github.com/wangheer2010)
   - [Contact Me](mailto:cw3211@columbia.edu)
   ## Video
-  - [My Video Instruction](https://www.bilibili.com/video/)
+  - [My Video Instruction](https://www.bilibili.com/video/BV1Pa411E7NN?share_source=copy_web)

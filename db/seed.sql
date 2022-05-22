@@ -27,4 +27,4 @@ VALUES
 ("Sarah", "Lourd", 6), 
 ("Tom", "Allen", 7);
 
-UPDATE `employee_db`.`employees` SET `manager_id` = '1' WHERE (`id` > '1');
+UPDATE `employee_db`.`employee` SET `manager_id` = '1' WHERE (`id` > '1');
