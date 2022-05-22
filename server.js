@@ -62,12 +62,12 @@ const firstPrompt = function() {
         case 'Update Employee Manager':
           updateEmployeeManager();
           break;
-        // case 'View Employees By Manager':
-        //   viewEmployeesByManager();
-        //   break;
-        // case 'View Employees By Department':
-        //   viewEmployeesByDepartment();
-        //   break;
+        case 'View Employees By Manager':
+          viewEmployeesByManager();
+          break;
+        case 'View Employees By Department':
+          viewEmployeesByDepartment();
+          break;
         // case 'Delete Employee':
         //   deleteEmployee();
         //   break;
@@ -80,9 +80,9 @@ const firstPrompt = function() {
         // case 'View the total utilized budget of a department':
         //   viewUtilizedBudgetByDepartment();
         //   break;
-        // case 'Exit':
-        //   connection.end();
-        //   break;
+        case 'Exit':
+          connection.end();
+          break;
         }
       })
 };
@@ -212,8 +212,9 @@ function addEmployee() {
       )
   })
   }
-  
-  //if update employee role is selected
+
+
+// Update queries
   function updateEmployeeRole() { 
     inquirer.prompt([
       {
@@ -239,4 +240,64 @@ function addEmployee() {
   })
 }
 
-updateEmployeeManager()
+function updateEmployeeManager() {
+  inquirer.prompt([
+    {
+        name: "id",
+        type: "input",
+        message: "What is the employee's id?",
+    },
+    {
+        name: "manager_id",
+        type: "input",
+        message: "What is the employee's manager id?",
+    }
+  ]).then(function(manager_id, id) {
+      let query = 'UPDATE employee SET manager_id = ? WHERE id = ?'
+      let params = [manager_id, id]
+  
+      db.query(query, params, (err, res) => {
+          if (err) throw err;
+          console.log(`Employee's manager updated successfully!`);
+      })
+      firstPrompt();
+  })
+}
+// View Employees By Department
+function viewEmployeesByManager() {
+  inquirer.prompt([
+    {
+        name: "manager_id",
+        type: "input",
+        message: "What is the manager id?",
+    }
+  ]).then(function(manager_id) {
+      let query = 'SELECT employee.name FROM employee WHERE manager_id = ?'
+      let params = [manager_id]
+  
+      db.query(query, params, (err, res) => {
+          if (err) throw err;
+          console.log(`Manager's employees shown successfully!`);
+      })
+      firstPrompt();
+  })
+}
+// View Employees By Department
+function viewEmployeesByDepartment() {
+  inquirer.prompt([
+    {
+        name: "department_name",
+        type: "input",
+        message: "What is the department name?",
+    }
+  ]).then(function(department_name) {
+      let query = 'SELECT employee.name FROM employee JOIN role ON role.id = employee.role_id JOIN department on department.id = role.department_id AND department_name = ?'
+      let params = [department_name]
+  
+      db.query(query, params, (err, res) => {
+          if (err) throw err;
+          console.log(`Manager's employee shown successfully!`);
+      })
+      firstPrompt();
+  })
+}
