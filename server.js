@@ -77,9 +77,9 @@ const firstPrompt = function() {
         case 'Delete Role':
           deleteRole();
           break;
-        // case 'View the total utilized budget of a department':
-        //   viewUtilizedBudgetByDepartment();
-        //   break;
+        case 'View the total utilized budget of a department':
+          viewUtilizedBudgetByDepartment();
+          break;
         case 'Exit':
           connection.end();
           break;
@@ -355,4 +355,23 @@ const deleteRole = () => {
     })
     firstPrompt();
   })
+}     
+//  case 'View the total utilized budget of a department':
+function viewUtilizedBudgetByDepartment() {
+
+  inquirer.prompt([
+    {
+        name: 'department_id',
+        type: 'input',
+        message: 'Enter the name of the department you want to check the utilized budget:'
+    }
+]).then(function(department_name) {
+    let query = `SELECT department.name, sum(employee.salary) AS utilized_budget FROM employee JOIN role ON role.id = employee.role_id JOIN department on department.id = role.department_id and department.name = ? GROUP BY department.name`
+    let params = [department_name]
+    db.query(query, params, (err, res) => {
+      if (err) throw err;
+      console.log(`Utilized budget shown successfully!`);
+  })
+  firstPrompt();
+})
 }
